@@ -1,3 +1,6 @@
+QBCore = exports['qb-core']:GetCoreObject()
+
+
 RegisterNetEvent('copilot-ai:sendDispatch', function(coords)
     local src = source
     local data = {
@@ -16,3 +19,14 @@ RegisterNetEvent('copilot-ai:sendDispatch', function(coords)
 
     TriggerEvent('ps-dispatch:server:sendCall', data)
 end)
+
+RegisterCommand("aiscene", function(source, args, rawCommand)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player and Player.PlayerData.job.name == "police" then
+        TriggerClientEvent("policeai:client:SpawnAIPed", src)
+    else
+        TriggerClientEvent("QBCore:Notify", src, "You do not have permission to use this command.", "error")
+    end
+end, false)
+
